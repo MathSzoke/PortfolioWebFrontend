@@ -2,7 +2,8 @@ name: Portfolio Frontend
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -18,6 +19,7 @@ concurrency:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +27,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: "20.x"
           cache: npm
 
       - name: Install
@@ -44,27 +46,32 @@ jobs:
           VITE_LINKEDIN_REDIRECT_URI: ${{ secrets.VITE_LINKEDIN_REDIRECT_URI }}
 
       - name: Prepare Pages Artifacts
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: |
           mkdir -p dist/br dist/us
           cp dist/index.html dist/404.html
           cp dist/index.html dist/br/index.html
           cp dist/index.html dist/us/index.html
-          echo "portfolio.mathszoke.com" > dist/CNAME
 
-      - name: Upload artifact
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: actions/upload-pages-artifact@v3
+      - name: Configure GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
   deploy:
     runs-on: ubuntu-latest
     needs: build-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.event_name != 'pull_request'
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
