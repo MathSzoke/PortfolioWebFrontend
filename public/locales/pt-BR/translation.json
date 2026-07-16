@@ -191,13 +191,23 @@
           "editTitle": "Editar experiencia",
           "delete": "Excluir experiencia",
           "company": "Empresa",
-          "logo": "URL do logo",
+          "logo": "URL da imagem do logo",
           "role": "Cargo",
           "period": "Periodo",
           "location": "Localizacao",
           "startDate": "Data inicial",
           "description": "Descricao, um item por linha",
-          "techs": "Tecnologias, separadas por virgula"
+          "techs": "Tecnologias, separadas por virgula",
+          "uploadLogo": "Upload",
+          "endDate": "Data final",
+          "isPresent": "Trabalho aqui atualmente",
+          "datePrecision": "Formato da data",
+          "monthYear": "Mes/ano",
+          "dayMonthYear": "Dia/mes/ano",
+          "periodHelp": "Comando disponivel: {{timerWorking}} e substituido pelo tempo entre a data inicial e hoje. Ele e usado automaticamente quando a experiencia esta marcada como atual.",
+          "previewMarkdown": "Visualizar Markdown",
+          "editMarkdown": "Editar Markdown",
+          "translationHint": "Ao salvar, este conteudo e traduzido automaticamente para o outro idioma disponivel."
         }
       },
       "skills": {

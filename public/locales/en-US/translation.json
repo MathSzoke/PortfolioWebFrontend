@@ -47,13 +47,23 @@
           "editTitle": "Edit experience",
           "delete": "Delete experience",
           "company": "Company",
-          "logo": "Logo URL",
+          "logo": "Logo image URL",
           "role": "Role",
           "period": "Period",
           "location": "Location",
           "startDate": "Start date",
           "description": "Description, one item per line",
-          "techs": "Technologies, comma separated"
+          "techs": "Technologies, comma separated",
+          "uploadLogo": "Upload",
+          "endDate": "End date",
+          "isPresent": "Currently working here",
+          "datePrecision": "Date format",
+          "monthYear": "Month/year",
+          "dayMonthYear": "Day/month/year",
+          "periodHelp": "Available command: {{timerWorking}} is replaced by the time from the start date to today. It is used automatically when the experience is marked as current.",
+          "previewMarkdown": "Preview Markdown",
+          "editMarkdown": "Edit Markdown",
+          "translationHint": "When saved, this content is automatically translated to the other available language."
         },
         "items": [
           {
@@ -244,50 +254,50 @@
     "responses": {
       "rateError": "Error to save your rating, please, wait a minute and try again."
     },
-      "superAdmin": {
-        "title": "Super admin area",
-        "editTitle": "Edit project area",
-        "description": "Manage your projects and advanced settings here.",
-        "actions": {
-          "addProject": "Add project",
-          "updateProject": "Update project",
-          "deleteProject": "Delete project",
-          "reorderProjects": "Reorder projects"
-        },
-        "dialogs": {
-          "confirmationDelete": {
-            "title": "Delete project",
-            "message": "Do you really want to delete this project?",
-            "confirm": "Confirm"
-          }
-        },
-        "responses": {
-          "added": "Project was added with success!",
-          "addError": "An error occurred when save the project, see error on console",
-          "reorderSaved": "Reorder was saved with sucess!",
-          "reorderFailed": "Reorder was failed, see error on console",
-          "loadError": "Failed to load projects.",
-          "addTechError": "Failed to save a new technology, see devtools console to see the error.",
-          "deleted": "Project deleted successfully",
-          "deleteFailed": "Failed to delete the project",
-          "updated": "Project updated successfully"
-        },
-        "placeholders": {
-          "name": "Project name",
-          "summary": "Short summary",
-          "repoUrl": "Repository name",
-          "liveUrl": "Live project URL",
-          "technologies": "Technologies",
-          "pastThumbUrl": "Past an URL image"
-        },
-        "labels": {
-          "uploadImage": "Upload image",
-          "newTechnology": "New technology",
-          "tech": "Thumbnail URL / Upload",
-          "urlEndpoint": "Endpoint URL"
+    "superAdmin": {
+      "title": "Super admin area",
+      "editTitle": "Edit project area",
+      "description": "Manage your projects and advanced settings here.",
+      "actions": {
+        "addProject": "Add project",
+        "updateProject": "Update project",
+        "deleteProject": "Delete project",
+        "reorderProjects": "Reorder projects"
+      },
+      "dialogs": {
+        "confirmationDelete": {
+          "title": "Delete project",
+          "message": "Do you really want to delete this project?",
+          "confirm": "Confirm"
         }
+      },
+      "responses": {
+        "added": "Project was added with success!",
+        "addError": "An error occurred when save the project, see error on console",
+        "reorderSaved": "Reorder was saved with sucess!",
+        "reorderFailed": "Reorder was failed, see error on console",
+        "loadError": "Failed to load projects.",
+        "addTechError": "Failed to save a new technology, see devtools console to see the error.",
+        "deleted": "Project deleted successfully",
+        "deleteFailed": "Failed to delete the project",
+        "updated": "Project updated successfully"
+      },
+      "placeholders": {
+        "name": "Project name",
+        "summary": "Short summary",
+        "repoUrl": "Repository name",
+        "liveUrl": "Live project URL",
+        "technologies": "Technologies",
+        "pastThumbUrl": "Past an URL image"
+      },
+      "labels": {
+        "uploadImage": "Upload image",
+        "newTechnology": "New technology",
+        "tech": "Thumbnail URL / Upload",
+        "urlEndpoint": "Endpoint URL"
       }
-    },
+    }
+  },
   "header": {
     "nav": {
       "about": "About",

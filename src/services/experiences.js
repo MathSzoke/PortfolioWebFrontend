@@ -17,6 +17,8 @@ export async function saveExperience(experience, language) {
         description: Array.isArray(experience.description) ? experience.description : [],
         techs: Array.isArray(experience.techs) ? experience.techs : [],
         startDate: experience.startDate || null,
+        endDate: experience.endDate || null,
+        isPresent: Boolean(experience.isPresent),
         sortOrder: experience.sortOrder || 0
     };
 

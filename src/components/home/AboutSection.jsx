@@ -53,6 +53,7 @@ import { generateCurriculumPdfBlob } from '../../services/curriculumPdf';
 import { uploadCurriculumPdfToApi } from '../../services/curriculumUpload';
 import { deleteExperience, getExperiences, saveExperience } from '../../services/experiences';
 import ExperienceModal from './ExperienceModal';
+import MarkdownText from './MarkdownText';
 
 const useStyles = makeStyles({
     root: {
@@ -483,6 +484,7 @@ export default function AboutSection() {
     }, [extraTools]);
 
     function getWorkingTime(startDate) {
+        if (!startDate) return '';
         const start = new Date(startDate);
         const now = new Date();
 
@@ -591,7 +593,7 @@ export default function AboutSection() {
                                                 <ul style={{ padding: '0 40px 10px', margin: 0, overflowY: 'auto' }}>
                                                     {(exp.description || []).map((desc, idx) => (
                                                         <li key={idx}>
-                                                            <Text size={200}>{desc}</Text>
+                                                            <MarkdownText>{desc}</MarkdownText>
                                                         </li>
                                                     ))}
                                                 </ul>
