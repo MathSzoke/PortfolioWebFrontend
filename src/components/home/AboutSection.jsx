@@ -71,6 +71,38 @@ const useStyles = makeStyles({
         alignItems: 'flex-start',
         gap: '16px'
     },
+    sectionHeaderText: {
+        display: 'grid',
+        gap: '6px',
+        minWidth: 0
+    },
+    sectionActions: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        gap: '12px',
+        flexWrap: 'wrap',
+        flexShrink: 0
+    },
+    experienceSummary: {
+        display: 'grid',
+        justifyItems: 'end',
+        gap: '2px',
+        padding: '6px 10px',
+        border: `1px solid ${tokens.colorNeutralStroke2}`,
+        borderRadius: tokens.borderRadiusMedium,
+        background: tokens.colorNeutralBackground2,
+        boxShadow: tokens.shadow2
+    },
+    experienceSummaryLabel: {
+        color: tokens.colorNeutralForeground3,
+        fontSize: '11px',
+        lineHeight: 1
+    },
+    experienceSummaryValue: {
+        fontSize: '13px',
+        lineHeight: 1.2
+    },
     sub: {
         color: tokens.colorNeutralForeground3,
         whiteSpace: 'pre-line'
@@ -352,6 +384,56 @@ const normalizeCurriculumUrl = url => {
     return value;
 };
 
+const getCalendarMonthDiff = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = endDate ? new Date(endDate) : new Date();
+
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end < start) return 0;
+
+    return Math.max(1, (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth());
+};
+
+const getDurationMonthsFromPeriod = period => {
+    const duration = String(period || '').split('·').pop()?.toLowerCase() || '';
+    const years = duration.match(/(\d+)\s*(?:yr|yrs|year|years|ano|anos)/)?.[1];
+    const months = duration.match(/(\d+)\s*(?:mo|mos|month|months|m[eê]s|meses)/)?.[1];
+
+    const total = (Number(years || 0) * 12) + Number(months || 0);
+    return Number.isFinite(total) ? total : 0;
+};
+
+const getExperienceDurationMonths = experience => {
+    if (experience?.startDate) {
+        const endDate = experience.isPresent ? undefined : experience.endDate;
+        return getCalendarMonthDiff(experience.startDate, endDate);
+    }
+
+    return getDurationMonthsFromPeriod(experience?.period);
+};
+
+const formatExperienceDuration = (months, language) => {
+    const totalMonths = Math.max(0, Math.round(months));
+    const years = Math.floor(totalMonths / 12);
+    const remainingMonths = totalMonths % 12;
+    const isEnglish = normalizeCurriculumLanguage(language) === 'en-US';
+    const parts = [];
+
+    if (years) {
+        parts.push(isEnglish
+            ? `${years} ${years === 1 ? 'yr' : 'yrs'}`
+            : `${years} ${years === 1 ? 'ano' : 'anos'}`);
+    }
+
+    if (remainingMonths) {
+        parts.push(isEnglish
+            ? `${remainingMonths} ${remainingMonths === 1 ? 'mo' : 'mos'}`
+            : `${remainingMonths} ${remainingMonths === 1 ? 'mês' : 'meses'}`);
+    }
+
+    if (!parts.length) return isEnglish ? 'Less than 1 mo' : 'Menos de 1 mês';
+    return parts.join(' ');
+};
+
 export default function AboutSection() {
     const s = useStyles();
     const { t, i18n } = useTranslation();
@@ -384,6 +466,11 @@ export default function AboutSection() {
                 .map((x, index) => ({ ...x, sortOrder: managedExperiences.length + index + 1 }))
         ].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
     }, [managedExperiences, staticExperiences]);
+    const totalExperienceMonths = useMemo(
+        () => experiences.reduce((total, experience) => total + getExperienceDurationMonths(experience), 0),
+        [experiences]
+    );
+    const totalExperienceText = formatExperienceDuration(totalExperienceMonths, currentCurriculumLanguage);
 
     useEffect(() => {
         setCurriculumLanguage(currentCurriculumLanguage);
@@ -586,19 +673,29 @@ export default function AboutSection() {
 
             <div className={s.section}>
                 <div className={s.sectionHeader}>
-                    <div>
+                    <div className={s.sectionHeaderText}>
                         <Text weight="semibold">{sections.experiences.title}</Text>
                         <Text className={s.sub}>{sections.experiences.text}</Text>
                     </div>
-                    {isSuperAdmin && (
-                        <Button
-                            appearance="primary"
-                            icon={<AddRegular />}
-                            onClick={() => setExperienceModalData({ sortOrder: experiences.length + 1 })}
-                        >
-                            {t('about.sections.experiences.admin.add')}
-                        </Button>
-                    )}
+                    <div className={s.sectionActions}>
+                        <div className={s.experienceSummary}>
+                            <Text className={s.experienceSummaryLabel}>
+                                {t('about.sections.experiences.totalLabel', 'Total experience')}
+                            </Text>
+                            <Text weight="semibold" className={s.experienceSummaryValue}>
+                                {totalExperienceText}
+                            </Text>
+                        </div>
+                        {isSuperAdmin && (
+                            <Button
+                                appearance="primary"
+                                icon={<AddRegular />}
+                                onClick={() => setExperienceModalData({ sortOrder: experiences.length + 1 })}
+                            >
+                                {t('about.sections.experiences.admin.add')}
+                            </Button>
+                        )}
+                    </div>
                 </div>
 
                 <Carousel align="center" whitespace={false} announcement={getAnnouncement} draggable>
