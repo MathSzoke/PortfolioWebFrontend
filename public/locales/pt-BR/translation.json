@@ -196,7 +196,18 @@
         }
       },
       "cta": {
-        "viewCurriculum": "Visualizar currículo"
+        "viewCurriculum": "Visualizar currículo",
+        "editCurriculum": "Editar curriculo",
+        "editCurriculumTitle": "Editar curriculo",
+        "curriculumLanguage": "Idioma do curriculo",
+        "curriculumUrl": "URL do PDF",
+        "uploadCurriculum": "Subir PDF",
+        "savingCurriculum": "Salvando...",
+        "editorHint": "Voce pode subir um novo PDF ou colar uma URL publica. O editor nativo do conteudo do PDF sera implementado em uma etapa separada.",
+        "invalidCurriculumUrl": "Informe uma URL valida para o PDF.",
+        "curriculumSaveError": "Nao foi possivel salvar o curriculo.",
+        "curriculumUploadError": "Nao foi possivel subir o PDF.",
+        "curriculumPdfOnly": "Selecione um arquivo PDF."
       }
     }
   },

@@ -196,7 +196,18 @@
         }
       },
       "cta": {
-        "viewCurriculum": "View Curriculum"
+        "viewCurriculum": "View Curriculum",
+        "editCurriculum": "Edit curriculum",
+        "editCurriculumTitle": "Edit curriculum",
+        "curriculumLanguage": "Curriculum language",
+        "curriculumUrl": "PDF URL",
+        "uploadCurriculum": "Upload PDF",
+        "savingCurriculum": "Saving...",
+        "editorHint": "You can upload a new PDF or paste a public URL. Native PDF content editing will be implemented separately.",
+        "invalidCurriculumUrl": "Enter a valid PDF URL.",
+        "curriculumSaveError": "Could not save the curriculum.",
+        "curriculumUploadError": "Could not upload the PDF.",
+        "curriculumPdfOnly": "Select a PDF file."
       }
     }
   },

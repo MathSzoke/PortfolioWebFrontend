@@ -8,10 +8,18 @@
     List,
     Card,
     CardHeader,
+    Dialog,
+    DialogActions,
+    DialogBody,
+    DialogContent,
+    DialogSurface,
+    DialogTitle,
+    Field,
+    Input,
     mergeClasses
 } from '@fluentui/react-components';
 import { useTranslation } from 'react-i18next';
-import { DocumentPdfFilled } from '@fluentui/react-icons';
+import { DocumentPdfFilled, EditRegular } from '@fluentui/react-icons';
 import {
     Carousel,
     CarouselNav,
@@ -21,7 +29,7 @@ import {
     CarouselViewport,
     CarouselCard
 } from '@fluentui/react-components';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TbBrandCSharp } from 'react-icons/tb';
 import {
     SiDotnet,
@@ -38,6 +46,9 @@ import {
     VscAzureDevops
 } from 'react-icons/vsc';
 import { DiMsqlServer, DiVisualstudio } from 'react-icons/di';
+import { useAuth } from '../../services/auth';
+import useApiClient from '../../services/useApiClient';
+import { uploadPdfToCloudinary } from '../../services/cloudinaryUpload';
 
 const useStyles = makeStyles({
     root: {
@@ -55,6 +66,19 @@ const useStyles = makeStyles({
     },
     button: {
         width: 'max-content'
+    },
+    ctaActions: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: '8px'
+    },
+    dialogContent: {
+        display: 'grid',
+        gap: '12px'
+    },
+    fileInput: {
+        display: 'none'
     },
     card: {
         minWidth: '300px',
@@ -220,14 +244,106 @@ const techImageMap = {
 };
 
 const getAnnouncement = (index, total) => `Carrossel: slide ${index + 1} de ${total}`;
+const defaultCurriculumUrls = {
+    'pt-BR': '/assets/cv-pt-BR.pdf',
+    'en-US': '/assets/cv-en-US.pdf'
+};
+
+const normalizeCurriculumLanguage = language =>
+    String(language || '').toLowerCase().startsWith('en') ? 'en-US' : 'pt-BR';
 
 export default function AboutSection() {
     const s = useStyles();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const api = useApiClient();
+    const { userInfo } = useAuth();
     const sections = t('about.sections', { returnObjects: true });
     const experiences = t('about.sections.experiences.items', { returnObjects: true }) || [];
     const [hovered, setHovered] = useState(null);
     const [hoveredSkill, setHoveredSkill] = useState(null);
+    const [curriculumUrls, setCurriculumUrls] = useState(defaultCurriculumUrls);
+    const [curriculumEditorOpen, setCurriculumEditorOpen] = useState(false);
+    const [curriculumLanguage, setCurriculumLanguage] = useState(normalizeCurriculumLanguage(i18n.resolvedLanguage || i18n.language));
+    const [curriculumUrlInput, setCurriculumUrlInput] = useState('');
+    const [curriculumError, setCurriculumError] = useState('');
+    const [curriculumSaving, setCurriculumSaving] = useState(false);
+    const fileInputRef = useRef(null);
+
+    const currentCurriculumLanguage = normalizeCurriculumLanguage(i18n.resolvedLanguage || i18n.language);
+    const currentCurriculumUrl = curriculumUrls[currentCurriculumLanguage] || defaultCurriculumUrls[currentCurriculumLanguage];
+    const isSuperAdmin = Array.isArray(userInfo?.roles) && userInfo.roles.includes('SuperAdmin');
+
+    useEffect(() => {
+        setCurriculumLanguage(currentCurriculumLanguage);
+    }, [currentCurriculumLanguage]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        api.get(`/api/v1/curriculum?language=${encodeURIComponent(currentCurriculumLanguage)}`, { skipAuth: true })
+            .then(data => {
+                if (cancelled || !data?.url) return;
+                setCurriculumUrls(prev => ({ ...prev, [currentCurriculumLanguage]: data.url }));
+            })
+            .catch(() => {
+                if (!cancelled) {
+                    setCurriculumUrls(prev => ({ ...prev, [currentCurriculumLanguage]: prev[currentCurriculumLanguage] || defaultCurriculumUrls[currentCurriculumLanguage] }));
+                }
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [api, currentCurriculumLanguage]);
+
+    const openCurriculumEditor = () => {
+        const language = currentCurriculumLanguage;
+        setCurriculumLanguage(language);
+        setCurriculumUrlInput(curriculumUrls[language] || defaultCurriculumUrls[language]);
+        setCurriculumError('');
+        setCurriculumEditorOpen(true);
+    };
+
+    const saveCurriculumUrl = useCallback(async (language, url) => {
+        const trimmedUrl = String(url || '').trim();
+        if (!/^https?:\/\//i.test(trimmedUrl)) {
+            setCurriculumError(t('about.sections.cta.invalidCurriculumUrl', 'Informe uma URL valida para o PDF.'));
+            return;
+        }
+
+        setCurriculumSaving(true);
+        setCurriculumError('');
+        try {
+            await api.put('/api/v1/curriculum', { language, url: trimmedUrl });
+            setCurriculumUrls(prev => ({ ...prev, [language]: trimmedUrl }));
+            setCurriculumUrlInput(trimmedUrl);
+            setCurriculumEditorOpen(false);
+        } catch {
+            setCurriculumError(t('about.sections.cta.curriculumSaveError', 'Nao foi possivel salvar o curriculo.'));
+        } finally {
+            setCurriculumSaving(false);
+        }
+    }, [api, t]);
+
+    const handleCurriculumUpload = async event => {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (!file) return;
+        if (file.type && file.type !== 'application/pdf') {
+            setCurriculumError(t('about.sections.cta.curriculumPdfOnly', 'Selecione um arquivo PDF.'));
+            return;
+        }
+
+        setCurriculumSaving(true);
+        setCurriculumError('');
+        try {
+            const uploadedUrl = await uploadPdfToCloudinary(file);
+            await saveCurriculumUrl(curriculumLanguage, uploadedUrl);
+        } catch {
+            setCurriculumError(t('about.sections.cta.curriculumUploadError', 'Nao foi possivel subir o PDF.'));
+            setCurriculumSaving(false);
+        }
+    };
 
     const extraTools = useMemo(
         () => [
@@ -396,16 +512,86 @@ export default function AboutSection() {
                 </List>
             </div>
 
-            <Button
-                appearance="primary"
-                icon={<DocumentPdfFilled />}
-                className={s.button}
-                as="a"
-                href="/assets/cv.pdf"
-                target="_blank"
-            >
-                {sections.cta.viewCurriculum}
-            </Button>
+            <div className={s.ctaActions}>
+                <Button
+                    appearance="primary"
+                    icon={<DocumentPdfFilled />}
+                    className={s.button}
+                    as="a"
+                    href={currentCurriculumUrl}
+                    target="_blank"
+                >
+                    {sections.cta.viewCurriculum}
+                </Button>
+                {isSuperAdmin && (
+                    <Button
+                        appearance="secondary"
+                        icon={<EditRegular />}
+                        className={s.button}
+                        onClick={openCurriculumEditor}
+                    >
+                        {sections.cta.editCurriculum}
+                    </Button>
+                )}
+            </div>
+
+            <Dialog open={curriculumEditorOpen} onOpenChange={(_, data) => setCurriculumEditorOpen(data.open)}>
+                <DialogSurface>
+                    <DialogBody>
+                        <DialogTitle>{sections.cta.editCurriculumTitle}</DialogTitle>
+                        <DialogContent className={s.dialogContent}>
+                            <Field label={sections.cta.curriculumLanguage}>
+                                <select
+                                    value={curriculumLanguage}
+                                    onChange={event => {
+                                        const language = event.target.value;
+                                        setCurriculumLanguage(language);
+                                        setCurriculumUrlInput(curriculumUrls[language] || defaultCurriculumUrls[language]);
+                                        setCurriculumError('');
+                                    }}
+                                >
+                                    <option value="pt-BR">Português (BR)</option>
+                                    <option value="en-US">English (US)</option>
+                                </select>
+                            </Field>
+                            <Field
+                                label={sections.cta.curriculumUrl}
+                                validationState={curriculumError ? 'error' : 'none'}
+                                validationMessage={curriculumError}
+                            >
+                                <Input
+                                    value={curriculumUrlInput}
+                                    onChange={event => setCurriculumUrlInput(event.target.value)}
+                                    placeholder="https://..."
+                                />
+                            </Field>
+                            <input
+                                ref={fileInputRef}
+                                className={s.fileInput}
+                                type="file"
+                                accept="application/pdf"
+                                onChange={handleCurriculumUpload}
+                            />
+                            <Button
+                                appearance="secondary"
+                                disabled={curriculumSaving}
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                {sections.cta.uploadCurriculum}
+                            </Button>
+                            <Text className={s.sub}>{sections.cta.editorHint}</Text>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button appearance="secondary" disabled={curriculumSaving} onClick={() => setCurriculumEditorOpen(false)}>
+                                {t('common.close')}
+                            </Button>
+                            <Button appearance="primary" disabled={curriculumSaving} onClick={() => saveCurriculumUrl(curriculumLanguage, curriculumUrlInput)}>
+                                {curriculumSaving ? sections.cta.savingCurriculum : t('common.save')}
+                            </Button>
+                        </DialogActions>
+                    </DialogBody>
+                </DialogSurface>
+            </Dialog>
         </div>
     );
 }

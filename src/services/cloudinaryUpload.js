@@ -21,3 +21,27 @@ export async function uploadToCloudinary(file) {
     const data = await res.json();
     return data.secure_url;
 }
+
+export async function uploadPdfToCloudinary(file) {
+    const cloudName = 'djwjecueo';
+    const uploadPreset = 'ml_default';
+
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+
+    const res = await fetch(url, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        console.error('Cloudinary PDF error:', error);
+        throw new Error('PDF upload failed');
+    }
+
+    const data = await res.json();
+    return data.secure_url;
+}

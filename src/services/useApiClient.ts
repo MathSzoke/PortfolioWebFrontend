@@ -1,9 +1,10 @@
 import getApiClient from './apiClient';
 import { useAuth } from './auth';
+import { useMemo } from 'react';
 
 const useApiClient = () => {
     const { refreshToken } = useAuth();
-    return getApiClient(refreshToken);
+    return useMemo(() => getApiClient(refreshToken), [refreshToken]);
 };
 
 export default useApiClient;
