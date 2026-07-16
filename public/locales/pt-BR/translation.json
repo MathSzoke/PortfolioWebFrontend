@@ -1,0 +1,408 @@
+{
+  "common": {
+    "close": "Fechar",
+    "open": "Abrir",
+    "save": "Salvar",
+    "requiredField": "Campo obrigatório.",
+    "invalidUrl": "Informe uma URL válida.",
+    "validField": "Campo válido.",
+    "add": "Adicionar",
+    "openNewTab": "Abrir em nova aba",
+    "aiWarn": "Essa IA pode trazer informações irrelevantes ou alucinadas, por favor, se for o caso, ignore apenas."
+  },
+  "loader": {
+    "loading": "Carregando Portfolio...",
+    "success": "Tudo pronto!",
+    "warning": "Servidores offline. Tentando reconectar...",
+    "error": "Falha ao carregar. Por favor, recarregue a página."
+  },
+  "hero": {
+    "title": "OLÁ 👋, SEJA BEM VINDO AO MEU SITE!",
+    "introducingMe": "<span>Eu sou <code>Matheus Szoke</code>\nSou um <code>Desenvolvedor fullstack</code>\n& <code>Desenvolvedor de agentes de IA</code></span>",
+    "imageAlt": "Avatar Matheus Szoke",
+    "buttons": {
+      "viewProjects": "Ver projetos",
+      "talkToMe": "Falar comigo"
+    }
+  },
+  "about": {
+    "title": "Sobre mim",
+    "sections": {
+      "summary": {
+        "title": "Resumo",
+        "text": "Sou Desenvolvedor Web especializado em .NET e React, apaixonado por criar soluções escaláveis. Mais de 4 anos de experiência em sistemas corporativos e web apps, seguindo boas práticas como Clean Architecture"
+      },
+      "interests": {
+        "title": "Interesses",
+        "text": "Atualmente me aprofundando em Inteligência Artificial com C#, explorando Agentes de IA, modelos customizados e automação inteligente. Sempre buscando aprender novas tecnologias e práticas modernas."
+      },
+      "experiences": {
+        "title": "Experiências",
+        "text": "Essas são as experiências profissionais que eu obtive ao decorrer do tempo, abaixo você poderá ver as empresas.",
+        "descriptionTitle": "Principais atividades",
+        "items": [
+          {
+            "company": "XP Inc",
+            "logo": "/assets/experiences_logos/xp_logo.png",
+            "role": "Engenheiro de Software III",
+            "startDate": "2026-01-19",
+            "period": "Jan 2026 - Atual · {{timerWorking}}",
+            "location": "Vila Olímpia, São Paulo, Brasil · Remoto",
+            "description": [
+              "Migração e consolidação de serviços legados para componentes centralizados, aumentando consistência arquitetural e manutenibilidade.",
+              "Desenvolvimento e manutenção de serviços backend críticos voltados ao ecossistema de investimentos.",
+              "Atuação em confiabilidade de produção, incluindo validação de serviços, readiness operacional e estabilização pré-release.",
+              "Investigação e resolução de incidentes em produção relacionados a mecanismos financeiros como cashback e recompensas.",
+              "Responsabilidade por melhorias operacionais em múltiplos serviços, elevando monitoramento, estabilidade e qualidade geral.",
+              "Participação ativa em discussões arquiteturais e planejamento técnico de sistemas de missão e rewards em larga escala.",
+              "Atuação full cycle com forte colaboração em qualidade de software, incluindo estratégias de testes e garantia de confiabilidade.",
+              "Trabalho em ambiente ágil com participação em planning, refinamento técnico/negócio e gestão de backlog."
+            ],
+            "techs": [
+              "C#",
+              ".NET",
+              "Backend Services",
+              "Microsoft Azure",
+              "Azure DevOps",
+              "CI/CD",
+              "Observability (Dynatrace, Grafana)",
+              "Testing Tools",
+              "Architecture & Design",
+              "Problem Solving"
+            ]
+          },
+          {
+            "company": "Banco Bradesco (via Syscode)",
+            "logo": "/assets/experiences_logos/bradesco_logo.png",
+            "role": "Engenheiro de Software",
+            "period": "Set 2024 - Set 2025 · 1 ano 1 mês",
+            "location": "Osasco, São Paulo, Brasil · Remoto",
+            "description": [
+              "Desenvolvimento de sistema web para gestão de colaboradores.",
+              "Melhorias no sistema conforme demandas do cliente.",
+              "Aplicação de Clean Architecture e princípios SOLID.",
+              "Criação de testes unitários para garantir confiabilidade."
+            ],
+            "techs": [
+              "ASP.NET Framework 4.7.2",
+              "SQL Server",
+              "ADO.NET",
+              "Blazor",
+              "Clean Architecture",
+              "xUnit",
+              "Microsservices",
+              "Git",
+              "Docker"
+            ]
+          },
+          {
+            "company": "Viveo",
+            "logo": "/assets/experiences_logos/viveosaude_logo.png",
+            "role": "Engenheiro de Software",
+            "period": "Set 2023 - Ago 2024 · 1 ano",
+            "location": "São Paulo, Brasil · Híbrido",
+            "description": [
+              "Aprimoramento de queries e procedures em Microsoft SQL Server.",
+              "Refatoração de código C# usando .NET Core e ReactJS.",
+              "Desenvolvimento de chatbot WhatsApp para atendimento.",
+              "Suporte a operadores via chamados Topdesk."
+            ],
+            "techs": [
+              ".NET Core 7",
+              "SQL Server",
+              "EntityFramework",
+              "ReactJS",
+              "Python",
+              "xUnit",
+              "Microsservices",
+              "Git",
+              "Docker",
+              "Agile methodology",
+              "SCRUM",
+              "KANBAN"
+            ]
+          },
+          {
+            "company": "Geosaúde Gerenciadora",
+            "logo": "/assets/experiences_logos/geosaude_gerenciadora_logo.png",
+            "role": "Analista de Sistemas I",
+            "period": "Jun 2023 - Set 2023 · 4 meses",
+            "location": "São Paulo, Brasil · Presencial",
+            "description": [
+              "Desenvolvimento de plataforma analítica para monitoramento de pacientes.",
+              "Utilização de C# (.NET Core 7), PostgreSQL e AngularJS.",
+              "Automação de transferências diárias de arquivos via OneDrive."
+            ],
+            "techs": [
+              ".NET Core 7",
+              "PostgreSQL",
+              "AngularJS",
+              "Python",
+              "Git",
+              "Docker"
+            ]
+          },
+          {
+            "company": "Ka Solution",
+            "logo": "/assets/experiences_logos/ka_solution_logo.png",
+            "role": "Estagiário de Desenvolvimento Web",
+            "period": "Jan 2022 - Jun 2023 · 1 ano 6 meses",
+            "location": "São Paulo, Brasil · Remoto",
+            "description": [
+              "Revisão e aprimoramento de aplicações web.",
+              "Otimização de queries SQL para performance.",
+              "Redução de 98% no tempo de carregamento de PDFs."
+            ],
+            "techs": [
+              "ASP.NET Framework 4.5",
+              ".NET Core 6",
+              "SQL Server",
+              "ADO.NET",
+              "EntityFramework",
+              "Blazor",
+              "ReactJS",
+              "Python",
+              "Git"
+            ]
+          },
+          {
+            "company": "Ajv Sistemas LTDA",
+            "logo": "/assets/experiences_logos/ajv_sistemas_logo.png",
+            "role": "Estagiário de Desenvolvimento Web",
+            "period": "Jan 2021 - Out 2021 · 10 meses",
+            "location": "São Paulo, Brasil · Presencial",
+            "description": [
+              "Otimização de sistema de distribuição de medicamentos.",
+              "Gestão e organização de dados em banco.",
+              "Correção de bugs para maior eficiência."
+            ],
+            "techs": [
+              ".NET Core 6",
+              "React Native com Expo",
+              "SQL Server",
+              "Git SourceTree"
+            ]
+          }
+        ]
+      },
+      "skills": {
+        "title": "Tecnologias e ferramentas"
+      },
+      "languages": {
+        "title": "Idiomas",
+        "text": {
+          "enUs": "Inglês intermediário (B1)",
+          "ptBr": "Português nativo"
+        }
+      },
+      "cta": {
+        "viewCurriculum": "Visualizar currículo"
+      }
+    }
+  },
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "whatsapp": "Whatsapp",
+    "ariaLabel": "Links sociais"
+  },
+  "projects": {
+    "title": "Projetos",
+    "loading": "Carregando projetos...",
+    "responses": {
+      "rateError": "Erro ao salvar a avaliação, espere um minuto e tente novamente."
+    },
+    "superAdmin": {
+        "title": "Área do super admin",
+        "editTitle": "Área de editar projeto",
+        "description": "Gerencie seus projetos e configurações avançadas aqui.",
+        "actions": {
+          "addProject": "Adicionar projeto",
+          "updateProject": "Atualizar projeto",
+          "deleteProject": "Deletar projeto",
+          "reorderProjects": "Reordenar projetos"
+        },
+        "dialogs": {
+          "confirmationDelete": {
+            "title": "Deletar projeto",
+            "message": "Você realmente deseja deletar este projeto?",
+            "confirm": "Confirmar"
+          }
+        },
+        "responses": {
+          "added": "Projeto adicionado com sucesso!",
+          "loadError": "Erro ao carregar projetos.",
+          "reorderSaved": "Nova ordem salva!",
+          "reorderFailed": "Falha ao salvar a nova ordem.",
+          "deleted": "Projeto deletado com sucesso",
+          "deleteFailed": "Falha ao deletar o projeto",
+          "updated": "Projeto atualizado com sucesso"
+        },
+        "placeholders": {
+          "name": "Nome do projeto",
+          "summary": "Resumo curto",
+          "repoUrl": "Nome do repositório",
+          "liveUrl": "URL do projeto online",
+          "technologies": "Tecnologias",
+          "pastThumbUrl": "Cole uma URL da imagem",
+          "addTechError": "Falhou ao salvar uma nova tecnologia, veja o console devtools para visualizar o erro."
+        },
+        "labels": {
+          "uploadImage": "Subir imagem",
+          "newTechnology": "Nova tecnologia",
+          "tech": "Thumbnail URL / Upload",
+          "urlEndpoint": "URL do endpoint"
+        }
+      }
+    },
+  "header": {
+    "nav": {
+      "about": "Sobre",
+      "hero": "Início",
+      "projects": "Projetos",
+      "title": "Menu"
+    },
+    "buttons": {
+      "settings": "Configurações",
+      "login": "Entrar"
+    },
+    "userMenu": {
+      "settings": {
+        "text": "Configurações",
+        "subText": "Editar conta"
+      },
+      "logout": "Sair"
+    }
+  },
+  "settings": {
+    "sidebar": {
+      "title": "Configurações",
+      "general": "Geral",
+      "language": "Idioma"
+    },
+    "language": {
+      "title": "Idioma"
+    },
+    "theme": {
+      "title": "Tema",
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
+    "account": {
+      "avatarPicker": {
+        "title": "Mudar a foto do perfil",
+        "tabs": {
+          "gallery": "Galeria",
+          "upload": "Do computador",
+          "social": "Da rede social"
+        },
+        "preview": "Pré-visualização",
+        "sectionMore": "Veja mais",
+        "uploadedPhotos": "Fotos upadas",
+        "sectionSocial": "Fotos de redes sociais",
+        "noSocialPhotos": "Ainda não há fotos de redes sociais",
+        "upload": {
+          "instructions": "Arraste uma imagem aqui ou escolha um arquivo",
+          "dragHere": "Solte a imagem aqui",
+          "chooseFile": "Escolher arquivo"
+        },
+        "actions": {
+          "cancel": "Cancelar",
+          "confirm": "Confirmar"
+        }
+      },
+      "sidebar": {
+        "title": "Configurações da conta",
+        "profile": "Perfil",
+        "deleteAccount": "Deletar conta"
+      },
+      "labels": {
+        "fullName": "Nome completo",
+        "email": "Email",
+        "avatarUrl": "URL do avatar",
+        "emailLockedHint": "Email não pode ser alterado por aqui."
+      },
+      "placeholders": {
+        "title": "ex.: Engenheiro de Software",
+        "location": "Cidade, País",
+        "avatarUrl": "https://...",
+        "bioMarkdown": "Escreva uma breve bio em Markdown"
+      },
+      "profile": {
+        "save": "Salvar alterações",
+        "success": "Perfil atualizado",
+        "error": "Não foi possível atualizar o perfil"
+      },
+      "danger": {
+        "title": "Excluir conta",
+        "desc": "Excluir sua conta é permanente. Todos os seus dados serão removidos e não poderão ser recuperados.",
+        "confirmLabel": "Digite <bold>DELETE</bold> para confirmar",
+        "confirmPlaceholder": "DELETE",
+        "button": "Excluir conta",
+        "error": "Não foi possível excluir a conta"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "goTo": {
+        "Login": "Voltar para login",
+        "Signup": "Criar conta"
+      },
+      "cta": "Entrar",
+      "forgot_password": "Esqueceu a senha?",
+      "no_account": "Não tem uma conta?",
+      "warn": "Esta tela de login é para apenas afim de comunicação via chat, as informações básicas que serão coletadas são Email, Nome e Foto de perfil.\n\nVocê também pode entrar como visitante, porém, a conversa no chat não ficará salvo."
+    },
+    "register": {
+      "title": "Criar conta",
+      "cta": "Criar conta",
+      "have_account": "Já tem uma conta?",
+      "signin_link": "Entrar"
+    },
+    "labels": {
+      "fullName": "Nome completo",
+      "email": "Email",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha"
+    },
+    "actions": {
+      "login": "Entrar",
+      "register": "Criar conta",
+      "loginWithGoogle": "Continuar com Google",
+      "loginWithLinkedIn": "Continuar com LinkedIn"
+    },
+    "links": {
+      "noAccount": "Não tem uma conta?",
+      "goToRegister": "Crie uma",
+      "haveAccount": "Já tem uma conta?",
+      "goToLogin": "Entrar"
+    },
+    "social": {
+      "or": "ou",
+      "google_signin": "Continuar com Google",
+      "google_signup": "Registrar com Google",
+      "linkedin_signin": "Continuar com LinkedIn",
+      "linkedin_signup": "Registrar com LinkedIn",
+      "signing_in": "Conectando..."
+    },
+    "validation": {
+      "required_fullname": "Nome completo é obrigatório",
+      "required_email": "Email é obrigatório",
+      "invalid_email": "Informe um email válido",
+      "required_password": "Senha é obrigatória",
+      "min_password": "A senha deve ter no mínimo 6 caracteres",
+      "password_mismatch": "As senhas não combinam"
+    },
+    "errors": {
+      "generic": "Algo deu errado"
+    }
+  },
+  "chat": {
+    "searchPlaceholder": "Pesquisar algo na conversa",
+    "startConversation": "Iniciar conversa",
+    "inputPlaceholder": "Digite algo aqui"
+  }
+}

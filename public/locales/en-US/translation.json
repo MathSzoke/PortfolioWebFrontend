@@ -1,0 +1,409 @@
+{
+  "common": {
+    "close": "Close",
+    "open": "Open",
+    "save": "Save",
+    "requiredField": "This field is required.",
+    "invalidUrl": "Please enter a valid URL.",
+    "validField": "Valid field.",
+    "add": "Add",
+    "openNewTab": "Open in a new tab",
+    "aiWarn": "This AI can bring irrelevant informations or delusional, please, if it's the case, just ignore it."
+  },
+  "loader": {
+    "loading": "Loading Portfolio...",
+    "success": "All set!",
+    "warning": "Servers are offline. Trying to reconnect...",
+    "error": "Failed to load. Please reload the page."
+  },
+  "hero": {
+    "title": "HELLO THERE 👋, WELCOME TO MY SITE!",
+    "introducingMe": "<span>I'm <code>Matheus Szoke</code>\nI'm a <code>Fullstack developer</code>\n& <code>Agent AI Developer</code></span>",
+    "imageAlt": "Matheus's avatar",
+    "buttons": {
+      "viewProjects": "See Projects",
+      "talkToMe": "Talk to me"
+    }
+  },
+  "about": {
+    "title": "About me",
+    "sections": {
+      "summary": {
+        "title": "Summary",
+        "text": "I'm a Web developer specializing in .NET and React, passionate about building scalable solutions. Over 4 years of experience in corporate systems and web applications, following best practices like Clean Architecture"
+      },
+      "interests": {
+        "title": "Interests",
+        "text": "Currently diving deep into Artificial Intelligence with C#, exploring AI Agents, custom models, and intelligent automation. Always learning and exploring modern technologies and practices."
+      },
+      "experiences": {
+        "title": "Experiences",
+        "text": "These are the professional experiences I have had over time. Below, you can see these companies.",
+        "descriptionTitle": "Main activities",
+        "items": [
+          {
+            "company": "XP Inc",
+            "logo": "/assets/experiences_logos/xp_logo.png",
+            "role": "Software Engineer III",
+            "startDate": "2026-01-19",
+            "period": "Jan 2026 - Present · {{timerWorking}}",
+            "location": "Vila Olímpia, São Paulo, Brazil · Remote",
+            "description": [
+              "Migration and consolidation of legacy services into centralized platform components, improving architectural consistency and maintainability.",
+              "Development and maintenance of high-reliability backend services supporting the investment ecosystem.",
+              "Involvement in production reliability activities, including service validation, operational readiness and pre-release stabilization.",
+              "Investigation and resolution of production incidents related to financial mechanisms such as cashback and reward systems.",
+              "Ownership of operational improvements across multiple services, enhancing monitoring, stability and overall system quality.",
+              "Participation in architectural discussions and technical planning for scalable mission and rewards systems.",
+              "Full-cycle engineering approach with strong contribution to software quality, including testing strategies and reliability practices.",
+              "Collaboration in an Agile environment with active participation in planning, refinement sessions and backlog management."
+            ],
+            "techs": [
+              "C#",
+              ".NET",
+              "Backend Services",
+              "Microsoft Azure",
+              "Azure DevOps",
+              "CI/CD",
+              "Observability (Dynatrace, Grafana)",
+              "Testing Tools",
+              "Architecture & Design",
+              "Problem Solving"
+            ]
+          },
+          {
+            "company": "Banco Bradesco (via Syscode)",
+            "logo": "/assets/experiences_logos/bradesco_logo.png",
+            "role": "Software Engineer",
+            "period": "Sep 2024 - Sep 2025 · 1 yr",
+            "location": "Osasco, São Paulo, Brazil · Remote",
+            "description": [
+              "Developed a web-based system for managing employees.",
+              "Improved the system with client-requested changes.",
+              "Applied Clean Architecture and SOLID principles.",
+              "Created unit tests to ensure reliability."
+            ],
+            "techs": [
+              "ASP.NET Framework 4.7.2",
+              "SQL Server",
+              "ADO.NET",
+              "Blazor",
+              "Clean Architecture",
+              "xUnit",
+              "Microsservices",
+              "Git",
+              "Docker"
+            ]
+          },
+          {
+            "company": "Viveo",
+            "logo": "/assets/experiences_logos/viveosaude_logo.png",
+            "role": "Software Engineer",
+            "period": "Sep 2023 - Aug 2024 · 1 yr",
+            "location": "São Paulo, Brazil · Hybrid",
+            "description": [
+              "Refined SQL queries and procedures in Microsoft SQL Server.",
+              "Refactored C# code using .NET Core and ReactJS.",
+              "Built a WhatsApp chatbot for customer service.",
+              "Supported operators via Topdesk tickets."
+            ],
+            "techs": [
+              ".NET Core 7",
+              "SQL Server",
+              "EntityFramework",
+              "ReactJS",
+              "Python",
+              "xUnit",
+              "Microsservices",
+              "Git",
+              "Docker",
+              "Agile methodology",
+              "SCRUM",
+              "KANBAN"
+            ]
+          },
+          {
+            "company": "Geosaúde Gerenciadora",
+            "logo": "/assets/experiences_logos/geosaude_gerenciadora_logo.png",
+            "role": "Systems Analyst I",
+            "period": "Jun 2023 - Sep 2023 · 3 mos",
+            "location": "São Paulo, Brazil · On-site",
+            "description": [
+              "Developed an analytical platform for monitoring patients.",
+              "Used C# (.NET Core 7), PostgreSQL and AngularJS.",
+              "Automated daily OneDrive file transfers."
+            ],
+            "techs": [
+              ".NET Core 7",
+              "PostgreSQL",
+              "AngularJS",
+              "Python",
+              "Git",
+              "Docker"
+            ]
+          },
+          {
+            "company": "Ka Solution",
+            "logo": "/assets/experiences_logos/ka_solution_logo.png",
+            "role": "Web Development Intern",
+            "period": "Jan 2022 - Jun 2023 · 1 yr 6 mos",
+            "location": "São Paulo, Brazil · Remote",
+            "description": [
+              "Reviewed and enhanced web applications.",
+              "Optimized SQL queries improving performance.",
+              "Achieved 98% faster PDF load times."
+            ],
+            "techs": [
+              "ASP.NET Framework 4.5",
+              ".NET Core 6",
+              "SQL Server",
+              "ADO.NET",
+              "EntityFramework",
+              "Blazor",
+              "ReactJS",
+              "Python",
+              "Git"
+            ]
+          },
+          {
+            "company": "Ajv Sistemas LTDA",
+            "logo": "/assets/experiences_logos/ajv_sistemas_logo.png",
+            "role": "Web Development Intern",
+            "period": "Jan 2021 - Oct 2021 · 10 mos",
+            "location": "São Paulo, Brazil · On-site",
+            "description": [
+              "Streamlined distribution system for medicines.",
+              "Managed database entry and organization.",
+              "Resolved system bugs improving efficiency."
+            ],
+            "techs": [
+              ".NET Core 6",
+              "React Native with Expo",
+              "SQL Server",
+              "Git SourceTree"
+            ]
+          }
+        ]
+      },
+      "skills": {
+        "title": "Techs & Tools"
+      },
+      "languages": {
+        "title": "Languages",
+        "text": {
+          "enUs": "Intermediate English (B1)",
+          "ptBr": "Native Portuguese"
+        }
+      },
+      "cta": {
+        "viewCurriculum": "View Curriculum"
+      }
+    }
+  },
+  "social": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "whatsapp": "Whatsapp",
+    "ariaLabel": "Social links"
+  },
+  "projects": {
+    "title": "Projects",
+    "loading": "Loading projects...",
+    "responses": {
+      "rateError": "Error to save your rating, please, wait a minute and try again."
+    },
+      "superAdmin": {
+        "title": "Super admin area",
+        "editTitle": "Edit project area",
+        "description": "Manage your projects and advanced settings here.",
+        "actions": {
+          "addProject": "Add project",
+          "updateProject": "Update project",
+          "deleteProject": "Delete project",
+          "reorderProjects": "Reorder projects"
+        },
+        "dialogs": {
+          "confirmationDelete": {
+            "title": "Delete project",
+            "message": "Do you really want to delete this project?",
+            "confirm": "Confirm"
+          }
+        },
+        "responses": {
+          "added": "Project was added with success!",
+          "addError": "An error occurred when save the project, see error on console",
+          "reorderSaved": "Reorder was saved with sucess!",
+          "reorderFailed": "Reorder was failed, see error on console",
+          "loadError": "Failed to load projects.",
+          "addTechError": "Failed to save a new technology, see devtools console to see the error.",
+          "deleted": "Project deleted successfully",
+          "deleteFailed": "Failed to delete the project",
+          "updated": "Project updated successfully"
+        },
+        "placeholders": {
+          "name": "Project name",
+          "summary": "Short summary",
+          "repoUrl": "Repository name",
+          "liveUrl": "Live project URL",
+          "technologies": "Technologies",
+          "pastThumbUrl": "Past an URL image"
+        },
+        "labels": {
+          "uploadImage": "Upload image",
+          "newTechnology": "New technology",
+          "tech": "Thumbnail URL / Upload",
+          "urlEndpoint": "Endpoint URL"
+        }
+      }
+    },
+  "header": {
+    "nav": {
+      "about": "About",
+      "hero": "Home",
+      "projects": "Projects",
+      "title": "Menu"
+    },
+    "buttons": {
+      "settings": "Settings",
+      "login": "Login"
+    },
+    "userMenu": {
+      "settings": {
+        "text": "Settings",
+        "subText": "Edit account"
+      },
+      "logout": "Logout"
+    }
+  },
+  "settings": {
+    "sidebar": {
+      "title": "Settings",
+      "general": "General",
+      "language": "Language"
+    },
+    "language": {
+      "title": "Language"
+    },
+    "theme": {
+      "title": "Theme",
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "account": {
+      "avatarPicker": {
+        "title": "Change profile picture",
+        "tabs": {
+          "gallery": "Gallery",
+          "upload": "From computer",
+          "social": "From social media"
+        },
+        "preview": "Preview",
+        "sectionMore": "See more",
+        "uploadedPhotos": "Photos uploaded",
+        "sectionSocial": "Social media photos",
+        "noSocialPhotos": "There are no social media photos yet.",
+        "upload": {
+          "instructions": "Drag an image here or choose a file",
+          "dragHere": "Drop image here",
+          "chooseFile": "Choose file"
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "confirm": "Confirm"
+        }
+      },
+      "sidebar": {
+        "title": "Account settings",
+        "profile": "Profile",
+        "deleteAccount": "Delete account"
+      },
+      "labels": {
+        "fullName": "Full name",
+        "email": "Email",
+        "avatarUrl": "Avatar URL",
+        "emailLockedHint": "Email cannot be changed here."
+      },
+      "placeholders": {
+        "title": "e.g., Software Engineer",
+        "location": "City, Country",
+        "avatarUrl": "https://...",
+        "bioMarkdown": "Write a short bio in Markdown"
+      },
+      "profile": {
+        "save": "Save changes",
+        "success": "Profile updated",
+        "error": "Could not update profile"
+      },
+      "danger": {
+        "title": "Delete account",
+        "desc": "Deleting your account is permanent. All your data will be removed and cannot be recovered.",
+        "confirmLabel": "Type <bold>DELETE</bold> to confirm",
+        "confirmPlaceholder": "DELETE",
+        "button": "Delete account",
+        "error": "Could not delete the account"
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "goTo": {
+        "Login": "Back to login",
+        "Signup": "Create account"
+      },
+      "cta": "Login",
+      "forgot_password": "Forgot your password?",
+      "no_account": "Don't have an account?",
+      "warn": "This login screen is for chat communication only. The basic information that will be collected is your email address, name, and profile photo.\n\nYou can also log in as a guest, but your chat conversation will not be saved."
+    },
+    "register": {
+      "title": "Create account",
+      "cta": "Create account",
+      "have_account": "Already have an account?",
+      "signin_link": "Login"
+    },
+    "labels": {
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "actions": {
+      "login": "Login",
+      "register": "Create account",
+      "loginWithGoogle": "Continue with Google",
+      "loginWithLinkedIn": "Continue with LinkedIn"
+    },
+    "links": {
+      "noAccount": "Don't have an account?",
+      "goToRegister": "Create one",
+      "haveAccount": "Already have an account?",
+      "goToLogin": "Login"
+    },
+    "social": {
+      "or": "or",
+      "google_signin": "Continue with Google",
+      "google_signup": "Sign up with Google",
+      "linkedin_signin": "Continue with LinkedIn",
+      "linkedin_signup": "Sign up with LinkedIn",
+      "signing_in": "Signing in..."
+    },
+    "validation": {
+      "required_fullname": "Full name is required",
+      "required_email": "Email is required",
+      "invalid_email": "Enter a valid email",
+      "required_password": "Password is required",
+      "min_password": "Password must be at least 6 characters",
+      "password_mismatch": "Passwords do not match"
+    },
+    "errors": {
+      "generic": "Something went wrong"
+    }
+  },
+  "chat": {
+    "searchPlaceholder": "Search in conversation",
+    "startConversation": "Start conversation",
+    "inputPlaceholder": "Type something here"
+  }
+}
