@@ -1,5 +1,3 @@
-import { Text } from '@fluentui/react-components';
-
 function escapeHtml(value) {
     return String(value || '')
         .replaceAll('&', '&amp;')
@@ -21,10 +19,11 @@ function renderMarkdown(value) {
 }
 
 export default function MarkdownText({ children, size = 200 }) {
+    const fontSize = size === 200 ? '12px' : '14px';
+
     return (
-        <Text
-            size={size}
-            as="span"
+        <span
+            style={{ fontSize, lineHeight: 1.35 }}
             dangerouslySetInnerHTML={{ __html: renderMarkdown(children) }}
         />
     );
