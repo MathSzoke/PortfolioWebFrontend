@@ -67,17 +67,30 @@ const useStyles = makeStyles({
     listItemBtn: { width: '100%', justifyContent: 'flex-start', padding: '6px 32px 6px 8px', height: 'auto' },
     deleteSessionButton: {
         position: 'absolute',
-        top: '4px',
-        right: '4px',
-        minWidth: '24px',
-        width: '24px',
-        height: '24px',
+        top: '6px',
+        right: '6px',
+        zIndex: 2,
+        width: '22px',
+        height: '22px',
+        border: 0,
+        borderRadius: '50%',
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        backgroundColor: 'transparent',
         color: tokens.colorNeutralForeground3,
-        opacity: 0.65,
+        opacity: 0.8,
         ':hover': {
             opacity: 1,
             color: tokens.colorPaletteRedForeground1,
             backgroundColor: tokens.colorNeutralBackground1Hover
+        },
+        ':focusVisible': {
+            outlineStyle: 'solid',
+            outlineWidth: '2px',
+            outlineColor: tokens.colorStrokeFocus2
         }
     },
     chatArea: {
@@ -281,16 +294,18 @@ export function ChatDialog({ apiBase, open, onClose, onSend, onStart, started, i
                                         avatar={{ image: { src: peer.picture } }}
                                     />
                                 </Button>
-                                <Button
-                                    appearance="subtle"
+                                <button
+                                    type="button"
                                     aria-label="Delete conversation"
+                                    title="Delete conversation"
                                     className={s.deleteSessionButton}
-                                    icon={<Dismiss16Regular />}
                                     onClick={async (event) => {
                                         event.stopPropagation();
                                         await handleDeleteSession(it);
                                     }}
-                                />
+                                >
+                                    <Dismiss16Regular />
+                                </button>
                             </div>
                         );
                     })}
