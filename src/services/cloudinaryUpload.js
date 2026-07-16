@@ -28,7 +28,7 @@ export async function uploadPdfToCloudinary(file) {
 
     const url = `https://api.cloudinary.com/v1_1/${cloudName}/raw/upload`;
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', file, file.name || 'curriculum.pdf');
     formData.append('upload_preset', uploadPreset);
 
     const res = await fetch(url, {

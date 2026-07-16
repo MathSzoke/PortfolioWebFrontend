@@ -16,6 +16,7 @@
     DialogTitle,
     Field,
     Input,
+    Textarea,
     mergeClasses
 } from '@fluentui/react-components';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +50,7 @@ import { DiMsqlServer, DiVisualstudio } from 'react-icons/di';
 import { useAuth } from '../../services/auth';
 import useApiClient from '../../services/useApiClient';
 import { uploadPdfToCloudinary } from '../../services/cloudinaryUpload';
+import { generateCurriculumPdfBlob } from '../../services/curriculumPdf';
 
 const useStyles = makeStyles({
     root: {
@@ -79,6 +81,9 @@ const useStyles = makeStyles({
     },
     fileInput: {
         display: 'none'
+    },
+    textArea: {
+        minHeight: '180px'
     },
     card: {
         minWidth: '300px',
@@ -265,6 +270,7 @@ export default function AboutSection() {
     const [curriculumEditorOpen, setCurriculumEditorOpen] = useState(false);
     const [curriculumLanguage, setCurriculumLanguage] = useState(normalizeCurriculumLanguage(i18n.resolvedLanguage || i18n.language));
     const [curriculumUrlInput, setCurriculumUrlInput] = useState('');
+    const [curriculumText, setCurriculumText] = useState('');
     const [curriculumError, setCurriculumError] = useState('');
     const [curriculumSaving, setCurriculumSaving] = useState(false);
     const fileInputRef = useRef(null);
@@ -300,6 +306,7 @@ export default function AboutSection() {
         const language = currentCurriculumLanguage;
         setCurriculumLanguage(language);
         setCurriculumUrlInput(curriculumUrls[language] || defaultCurriculumUrls[language]);
+        setCurriculumText(t('about.sections.cta.curriculumTemplate', { lng: language }));
         setCurriculumError('');
         setCurriculumEditorOpen(true);
     };
@@ -341,6 +348,27 @@ export default function AboutSection() {
             await saveCurriculumUrl(curriculumLanguage, uploadedUrl);
         } catch {
             setCurriculumError(t('about.sections.cta.curriculumUploadError', 'Nao foi possivel subir o PDF.'));
+            setCurriculumSaving(false);
+        }
+    };
+
+    const handleGenerateCurriculumPdf = async () => {
+        if (!curriculumText.trim()) {
+            setCurriculumError(t('about.sections.cta.curriculumTextRequired', 'Informe o conteúdo do currículo.'));
+            return;
+        }
+
+        setCurriculumSaving(true);
+        setCurriculumError('');
+        try {
+            const pdf = generateCurriculumPdfBlob({
+                title: t('about.sections.cta.curriculumGeneratedTitle', { lng: curriculumLanguage }),
+                content: curriculumText
+            });
+            const uploadedUrl = await uploadPdfToCloudinary(pdf);
+            await saveCurriculumUrl(curriculumLanguage, uploadedUrl);
+        } catch {
+            setCurriculumError(t('about.sections.cta.curriculumGenerateError', 'Nao foi possivel gerar o PDF.'));
             setCurriculumSaving(false);
         }
     };
@@ -547,6 +575,7 @@ export default function AboutSection() {
                                         const language = event.target.value;
                                         setCurriculumLanguage(language);
                                         setCurriculumUrlInput(curriculumUrls[language] || defaultCurriculumUrls[language]);
+                                        setCurriculumText(t('about.sections.cta.curriculumTemplate', { lng: language }));
                                         setCurriculumError('');
                                     }}
                                 >
@@ -578,6 +607,21 @@ export default function AboutSection() {
                                 onClick={() => fileInputRef.current?.click()}
                             >
                                 {sections.cta.uploadCurriculum}
+                            </Button>
+                            <Field label={sections.cta.curriculumText}>
+                                <Textarea
+                                    className={s.textArea}
+                                    resize="vertical"
+                                    value={curriculumText}
+                                    onChange={event => setCurriculumText(event.target.value)}
+                                />
+                            </Field>
+                            <Button
+                                appearance="secondary"
+                                disabled={curriculumSaving}
+                                onClick={handleGenerateCurriculumPdf}
+                            >
+                                {sections.cta.generateCurriculum}
                             </Button>
                             <Text className={s.sub}>{sections.cta.editorHint}</Text>
                         </DialogContent>
