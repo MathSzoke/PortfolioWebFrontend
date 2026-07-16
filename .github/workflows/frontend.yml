@@ -3,6 +3,7 @@ name: Portfolio Frontend
 on:
   push:
     branches:
+      - release
       - main
   pull_request:
   workflow_dispatch:
@@ -52,6 +53,7 @@ jobs:
           cp dist/index.html dist/404.html
           cp dist/index.html dist/br/index.html
           cp dist/index.html dist/us/index.html
+          echo "portfolio.mathszoke.com" > dist/CNAME
 
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
