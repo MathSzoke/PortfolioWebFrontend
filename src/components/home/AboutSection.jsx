@@ -134,11 +134,11 @@ const useStyles = makeStyles({
     },
     description: {
         width: '100%',
+        boxSizing: 'border-box',
         overflow: 'hidden',
         background: 'rgba(30,30,30,0.97)',
         color: tokens.colorNeutralForegroundOnBrand,
         borderRadius: tokens.borderRadiusMedium,
-        fontSize: '1rem',
         boxShadow: tokens.shadow8,
         opacity: 0,
         maxHeight: 0,
@@ -146,14 +146,84 @@ const useStyles = makeStyles({
         transition: 'opacity 0.3s ease, max-height 0.3s ease, transform 0.3s ease',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'flex-start'
+        alignItems: 'stretch'
     },
     descriptionVisible: {
         opacity: 1,
-        maxHeight: '18rem',
-        padding: '12px 0',
+        maxHeight: '20rem',
+        padding: '12px',
         transform: 'translateY(0)'
+    },
+    descriptionTitle: {
+        padding: 0,
+        marginBottom: '8px',
+        flexShrink: 0
+    },
+    markdownScroll: {
+        width: '100%',
+        maxHeight: '14rem',
+        minHeight: 0,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        boxSizing: 'border-box',
+        paddingRight: '6px'
+    },
+    markdownContent: {
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        background: 'transparent',
+        color: 'inherit',
+        fontSize: '13px',
+        lineHeight: 1.45,
+        overflowWrap: 'anywhere',
+        wordBreak: 'break-word',
+        '& p': {
+            margin: '0 0 8px'
+        },
+        '& h1': {
+            fontSize: '18px',
+            lineHeight: 1.25,
+            margin: '0 0 10px'
+        },
+        '& h2': {
+            fontSize: '16px',
+            lineHeight: 1.25,
+            margin: '0 0 8px'
+        },
+        '& h3': {
+            fontSize: '14px',
+            lineHeight: 1.25,
+            margin: '0 0 8px'
+        },
+        '& ul, & ol': {
+            margin: '0 0 8px',
+            paddingLeft: '18px'
+        },
+        '& li': {
+            margin: '0 0 6px'
+        },
+        '& pre': {
+            maxWidth: '100%',
+            overflowX: 'auto',
+            whiteSpace: 'pre-wrap'
+        },
+        '& code': {
+            whiteSpace: 'pre-wrap'
+        },
+        '& table': {
+            display: 'block',
+            maxWidth: '100%',
+            overflowX: 'auto'
+        },
+        '& img': {
+            maxWidth: '100%',
+            height: 'auto'
+        },
+        '& blockquote': {
+            margin: '0 0 8px',
+            paddingLeft: '10px'
+        }
     },
     techs: {
         display: 'flex',
@@ -587,13 +657,13 @@ export default function AboutSection() {
                                             <Text className={s.sub}>{exp.location}</Text>
 
                                             <div className={mergeClasses(s.description, isHovered && s.descriptionVisible)}>
-                                                <Text weight="semibold" style={{ padding: 8, marginBottom: 8 }}>
+                                                <Text weight="semibold" className={s.descriptionTitle}>
                                                     {t('about.sections.experiences.descriptionTitle', 'Main activities')}
                                                 </Text>
-                                                <div data-color-mode="dark" style={{ padding: '0 16px 10px', overflowY: 'auto', width: '100%' }}>
+                                                <div data-color-mode="dark" className={s.markdownScroll}>
                                                     <MDEditor.Markdown
                                                         source={(exp.description || []).join('\n')}
-                                                        style={{ background: 'transparent', color: 'inherit' }}
+                                                        className={s.markdownContent}
                                                     />
                                                 </div>
                                             </div>
