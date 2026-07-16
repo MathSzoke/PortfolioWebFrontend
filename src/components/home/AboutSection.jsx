@@ -49,8 +49,8 @@ import {
 import { DiMsqlServer, DiVisualstudio } from 'react-icons/di';
 import { useAuth } from '../../services/auth';
 import useApiClient from '../../services/useApiClient';
-import { uploadPdfToCloudinary } from '../../services/cloudinaryUpload';
 import { generateCurriculumPdfBlob } from '../../services/curriculumPdf';
+import { uploadCurriculumPdfToApi } from '../../services/curriculumUpload';
 
 const useStyles = makeStyles({
     root: {
@@ -256,6 +256,14 @@ const defaultCurriculumUrls = {
 
 const normalizeCurriculumLanguage = language =>
     String(language || '').toLowerCase().startsWith('en') ? 'en-US' : 'pt-BR';
+const apiBase = import.meta.env.VITE_PORTFOLIO_API || import.meta.env.VITE_API_BASE_URL || '';
+
+const normalizeCurriculumUrl = url => {
+    const value = String(url || '').trim();
+    if (!value || (value.includes('res.cloudinary.com') && value.includes('/raw/upload/'))) return '';
+    if (value.startsWith('/api/')) return `${apiBase.replace(/\/$/, '')}${value}`;
+    return value;
+};
 
 export default function AboutSection() {
     const s = useStyles();
@@ -276,7 +284,7 @@ export default function AboutSection() {
     const fileInputRef = useRef(null);
 
     const currentCurriculumLanguage = normalizeCurriculumLanguage(i18n.resolvedLanguage || i18n.language);
-    const currentCurriculumUrl = curriculumUrls[currentCurriculumLanguage] || defaultCurriculumUrls[currentCurriculumLanguage];
+    const currentCurriculumUrl = normalizeCurriculumUrl(curriculumUrls[currentCurriculumLanguage]) || defaultCurriculumUrls[currentCurriculumLanguage];
     const isSuperAdmin = Array.isArray(userInfo?.roles) && userInfo.roles.includes('SuperAdmin');
 
     useEffect(() => {
@@ -289,7 +297,10 @@ export default function AboutSection() {
         api.get(`/api/v1/curriculum?language=${encodeURIComponent(currentCurriculumLanguage)}`, { skipAuth: true })
             .then(data => {
                 if (cancelled || !data?.url) return;
-                setCurriculumUrls(prev => ({ ...prev, [currentCurriculumLanguage]: data.url }));
+                const url = normalizeCurriculumUrl(data.url);
+                if (url) {
+                    setCurriculumUrls(prev => ({ ...prev, [currentCurriculumLanguage]: url }));
+                }
             })
             .catch(() => {
                 if (!cancelled) {
@@ -344,10 +355,18 @@ export default function AboutSection() {
         setCurriculumSaving(true);
         setCurriculumError('');
         try {
-            const uploadedUrl = await uploadPdfToCloudinary(file);
-            await saveCurriculumUrl(curriculumLanguage, uploadedUrl);
+            await uploadCurriculumPdfToApi(api, curriculumLanguage, file);
+            const data = await api.get(`/api/v1/curriculum?language=${encodeURIComponent(curriculumLanguage)}`, { skipAuth: true });
+            const url = normalizeCurriculumUrl(data?.url);
+            if (url) {
+                setCurriculumUrls(prev => ({ ...prev, [curriculumLanguage]: url }));
+                setCurriculumUrlInput(url);
+            }
+            setCurriculumEditorOpen(false);
         } catch {
             setCurriculumError(t('about.sections.cta.curriculumUploadError', 'Nao foi possivel subir o PDF.'));
+            setCurriculumSaving(false);
+        } finally {
             setCurriculumSaving(false);
         }
     };
@@ -365,10 +384,18 @@ export default function AboutSection() {
                 title: t('about.sections.cta.curriculumGeneratedTitle', { lng: curriculumLanguage }),
                 content: curriculumText
             });
-            const uploadedUrl = await uploadPdfToCloudinary(pdf);
-            await saveCurriculumUrl(curriculumLanguage, uploadedUrl);
+            await uploadCurriculumPdfToApi(api, curriculumLanguage, pdf);
+            const data = await api.get(`/api/v1/curriculum?language=${encodeURIComponent(curriculumLanguage)}`, { skipAuth: true });
+            const url = normalizeCurriculumUrl(data?.url);
+            if (url) {
+                setCurriculumUrls(prev => ({ ...prev, [curriculumLanguage]: url }));
+                setCurriculumUrlInput(url);
+            }
+            setCurriculumEditorOpen(false);
         } catch {
             setCurriculumError(t('about.sections.cta.curriculumGenerateError', 'Nao foi possivel gerar o PDF.'));
+            setCurriculumSaving(false);
+        } finally {
             setCurriculumSaving(false);
         }
     };
