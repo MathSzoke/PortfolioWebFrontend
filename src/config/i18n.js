@@ -12,7 +12,10 @@ i18n
         supportedLngs: ['pt-BR', 'en-US'],
         load: 'currentOnly',
         backend: { loadPath: '/locales/{{lng}}/translation.json' },
-        detection: { order: ['cookie', 'localStorage', 'navigator', 'htmlTag'], caches: ['cookie'] },
+        detection: {
+            order: ['localStorage', 'cookie', 'navigator', 'htmlTag'],
+            caches: ['localStorage', 'cookie']
+        },
         interpolation: { escapeValue: false },
         debug: import.meta.env.DEV
     });
