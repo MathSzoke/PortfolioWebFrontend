@@ -20,7 +20,7 @@
     mergeClasses
 } from '@fluentui/react-components';
 import { useTranslation } from 'react-i18next';
-import { DocumentPdfFilled, EditRegular } from '@fluentui/react-icons';
+import { AddRegular, DeleteRegular, DocumentPdfFilled, EditRegular } from '@fluentui/react-icons';
 import {
     Carousel,
     CarouselNav,
@@ -51,6 +51,8 @@ import { useAuth } from '../../services/auth';
 import useApiClient from '../../services/useApiClient';
 import { generateCurriculumPdfBlob } from '../../services/curriculumPdf';
 import { uploadCurriculumPdfToApi } from '../../services/curriculumUpload';
+import { deleteExperience, getExperiences, saveExperience } from '../../services/experiences';
+import ExperienceModal from './ExperienceModal';
 
 const useStyles = makeStyles({
     root: {
@@ -61,6 +63,12 @@ const useStyles = makeStyles({
     section: {
         display: 'grid',
         gap: '8px'
+    },
+    sectionHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: '16px'
     },
     sub: {
         color: tokens.colorNeutralForeground3,
@@ -84,6 +92,14 @@ const useStyles = makeStyles({
     },
     textArea: {
         minHeight: '180px'
+    },
+    cardAdminActions: {
+        position: 'absolute',
+        top: '8px',
+        right: '8px',
+        display: 'flex',
+        gap: '4px',
+        zIndex: 3
     },
     card: {
         minWidth: '300px',
@@ -271,7 +287,9 @@ export default function AboutSection() {
     const api = useApiClient();
     const { userInfo } = useAuth();
     const sections = t('about.sections', { returnObjects: true });
-    const experiences = t('about.sections.experiences.items', { returnObjects: true }) || [];
+    const staticExperiences = t('about.sections.experiences.items', { returnObjects: true }) || [];
+    const [managedExperiences, setManagedExperiences] = useState([]);
+    const [experienceModalData, setExperienceModalData] = useState(null);
     const [hovered, setHovered] = useState(null);
     const [hoveredSkill, setHoveredSkill] = useState(null);
     const [curriculumUrls, setCurriculumUrls] = useState(defaultCurriculumUrls);
@@ -286,9 +304,34 @@ export default function AboutSection() {
     const currentCurriculumLanguage = normalizeCurriculumLanguage(i18n.resolvedLanguage || i18n.language);
     const currentCurriculumUrl = normalizeCurriculumUrl(curriculumUrls[currentCurriculumLanguage]) || defaultCurriculumUrls[currentCurriculumLanguage];
     const isSuperAdmin = Array.isArray(userInfo?.roles) && userInfo.roles.includes('SuperAdmin');
+    const experiences = useMemo(() => {
+        const managedCompanies = new Set(managedExperiences.map(x => x.company));
+        return [
+            ...managedExperiences,
+            ...staticExperiences
+                .filter(x => !managedCompanies.has(x.company))
+                .map((x, index) => ({ ...x, sortOrder: managedExperiences.length + index + 1 }))
+        ].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+    }, [managedExperiences, staticExperiences]);
 
     useEffect(() => {
         setCurriculumLanguage(currentCurriculumLanguage);
+    }, [currentCurriculumLanguage]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        getExperiences(currentCurriculumLanguage)
+            .then(items => {
+                if (!cancelled && Array.isArray(items)) setManagedExperiences(items);
+            })
+            .catch(() => {
+                if (!cancelled) setManagedExperiences([]);
+            });
+
+        return () => {
+            cancelled = true;
+        };
     }, [currentCurriculumLanguage]);
 
     useEffect(() => {
@@ -400,6 +443,21 @@ export default function AboutSection() {
         }
     };
 
+    const handleSaveExperience = async experience => {
+        const saved = await saveExperience(experience, currentCurriculumLanguage);
+        setManagedExperiences(prev => {
+            const next = prev.filter(x => x.id !== saved.id && x.company !== saved.company);
+            return [...next, saved].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+        });
+        setExperienceModalData(null);
+    };
+
+    const handleDeleteExperience = async experience => {
+        if (!experience?.id) return;
+        await deleteExperience(experience.id);
+        setManagedExperiences(prev => prev.filter(x => x.id !== experience.id));
+    };
+
     const extraTools = useMemo(
         () => [
             techImageMap['C#'],
@@ -455,8 +513,21 @@ export default function AboutSection() {
             </div>
 
             <div className={s.section}>
-                <Text weight="semibold">{sections.experiences.title}</Text>
-                <Text className={s.sub}>{sections.experiences.text}</Text>
+                <div className={s.sectionHeader}>
+                    <div>
+                        <Text weight="semibold">{sections.experiences.title}</Text>
+                        <Text className={s.sub}>{sections.experiences.text}</Text>
+                    </div>
+                    {isSuperAdmin && (
+                        <Button
+                            appearance="primary"
+                            icon={<AddRegular />}
+                            onClick={() => setExperienceModalData({ sortOrder: experiences.length + 1 })}
+                        >
+                            {t('about.sections.experiences.admin.add')}
+                        </Button>
+                    )}
+                </div>
 
                 <Carousel align="center" whitespace={false} announcement={getAnnouncement} draggable>
                     <CarouselViewport>
@@ -477,15 +548,39 @@ export default function AboutSection() {
                                             aria-label={exp.company}
                                             style={{ position: 'relative' }}
                                         >
+                                            {isSuperAdmin && (
+                                                <div className={s.cardAdminActions}>
+                                                    <Button
+                                                        size="small"
+                                                        appearance="subtle"
+                                                        icon={<EditRegular />}
+                                                        aria-label={t('about.sections.experiences.admin.edit')}
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            setExperienceModalData(exp);
+                                                        }}
+                                                    />
+                                                    {exp.id && (
+                                                        <Button
+                                                            size="small"
+                                                            appearance="subtle"
+                                                            icon={<DeleteRegular />}
+                                                            aria-label={t('about.sections.experiences.admin.delete')}
+                                                            onClick={event => {
+                                                                event.stopPropagation();
+                                                                handleDeleteExperience(exp);
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            )}
                                             <CardHeader
                                                 image={<img src={exp.logo} alt={exp.company} className={s.logo} />}
                                                 header={<Text weight="semibold">{exp.role}</Text>}
                                                 description={<Text>{exp.company}</Text>}
                                             />
                                             <Text className={s.period}>
-                                                {t('about.sections.experiences.items.' + i + '.period', {
-                                                    timerWorking: getWorkingTime(exp.startDate)
-                                                })}
+                                                {String(exp.period || '').replace('{{timerWorking}}', getWorkingTime(exp.startDate))}
                                             </Text>
                                             <Text className={s.sub}>{exp.location}</Text>
 
@@ -663,6 +758,15 @@ export default function AboutSection() {
                     </DialogBody>
                 </DialogSurface>
             </Dialog>
+
+            {experienceModalData && (
+                <ExperienceModal
+                    open={true}
+                    initialData={experienceModalData}
+                    onClose={() => setExperienceModalData(null)}
+                    onSave={handleSaveExperience}
+                />
+            )}
         </div>
     );
 }

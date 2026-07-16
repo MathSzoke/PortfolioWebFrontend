@@ -40,6 +40,21 @@
         "title": "Experiences",
         "text": "These are the professional experiences I have had over time. Below, you can see these companies.",
         "descriptionTitle": "Main activities",
+        "admin": {
+          "add": "Add experience",
+          "addTitle": "Add experience",
+          "edit": "Edit experience",
+          "editTitle": "Edit experience",
+          "delete": "Delete experience",
+          "company": "Company",
+          "logo": "Logo URL",
+          "role": "Role",
+          "period": "Period",
+          "location": "Location",
+          "startDate": "Start date",
+          "description": "Description, one item per line",
+          "techs": "Technologies, comma separated"
+        },
         "items": [
           {
             "company": "XP Inc",

@@ -183,7 +183,22 @@
               "Git SourceTree"
             ]
           }
-        ]
+        ],
+        "admin": {
+          "add": "Adicionar experiencia",
+          "addTitle": "Adicionar experiencia",
+          "edit": "Editar experiencia",
+          "editTitle": "Editar experiencia",
+          "delete": "Excluir experiencia",
+          "company": "Empresa",
+          "logo": "URL do logo",
+          "role": "Cargo",
+          "period": "Periodo",
+          "location": "Localizacao",
+          "startDate": "Data inicial",
+          "description": "Descricao, um item por linha",
+          "techs": "Tecnologias, separadas por virgula"
+        }
       },
       "skills": {
         "title": "Tecnologias e ferramentas"
@@ -230,48 +245,48 @@
       "rateError": "Erro ao salvar a avaliação, espere um minuto e tente novamente."
     },
     "superAdmin": {
-        "title": "Área do super admin",
-        "editTitle": "Área de editar projeto",
-        "description": "Gerencie seus projetos e configurações avançadas aqui.",
-        "actions": {
-          "addProject": "Adicionar projeto",
-          "updateProject": "Atualizar projeto",
-          "deleteProject": "Deletar projeto",
-          "reorderProjects": "Reordenar projetos"
-        },
-        "dialogs": {
-          "confirmationDelete": {
-            "title": "Deletar projeto",
-            "message": "Você realmente deseja deletar este projeto?",
-            "confirm": "Confirmar"
-          }
-        },
-        "responses": {
-          "added": "Projeto adicionado com sucesso!",
-          "loadError": "Erro ao carregar projetos.",
-          "reorderSaved": "Nova ordem salva!",
-          "reorderFailed": "Falha ao salvar a nova ordem.",
-          "deleted": "Projeto deletado com sucesso",
-          "deleteFailed": "Falha ao deletar o projeto",
-          "updated": "Projeto atualizado com sucesso"
-        },
-        "placeholders": {
-          "name": "Nome do projeto",
-          "summary": "Resumo curto",
-          "repoUrl": "Nome do repositório",
-          "liveUrl": "URL do projeto online",
-          "technologies": "Tecnologias",
-          "pastThumbUrl": "Cole uma URL da imagem",
-          "addTechError": "Falhou ao salvar uma nova tecnologia, veja o console devtools para visualizar o erro."
-        },
-        "labels": {
-          "uploadImage": "Subir imagem",
-          "newTechnology": "Nova tecnologia",
-          "tech": "Thumbnail URL / Upload",
-          "urlEndpoint": "URL do endpoint"
+      "title": "Área do super admin",
+      "editTitle": "Área de editar projeto",
+      "description": "Gerencie seus projetos e configurações avançadas aqui.",
+      "actions": {
+        "addProject": "Adicionar projeto",
+        "updateProject": "Atualizar projeto",
+        "deleteProject": "Deletar projeto",
+        "reorderProjects": "Reordenar projetos"
+      },
+      "dialogs": {
+        "confirmationDelete": {
+          "title": "Deletar projeto",
+          "message": "Você realmente deseja deletar este projeto?",
+          "confirm": "Confirmar"
         }
+      },
+      "responses": {
+        "added": "Projeto adicionado com sucesso!",
+        "loadError": "Erro ao carregar projetos.",
+        "reorderSaved": "Nova ordem salva!",
+        "reorderFailed": "Falha ao salvar a nova ordem.",
+        "deleted": "Projeto deletado com sucesso",
+        "deleteFailed": "Falha ao deletar o projeto",
+        "updated": "Projeto atualizado com sucesso"
+      },
+      "placeholders": {
+        "name": "Nome do projeto",
+        "summary": "Resumo curto",
+        "repoUrl": "Nome do repositório",
+        "liveUrl": "URL do projeto online",
+        "technologies": "Tecnologias",
+        "pastThumbUrl": "Cole uma URL da imagem",
+        "addTechError": "Falhou ao salvar uma nova tecnologia, veja o console devtools para visualizar o erro."
+      },
+      "labels": {
+        "uploadImage": "Subir imagem",
+        "newTechnology": "Nova tecnologia",
+        "tech": "Thumbnail URL / Upload",
+        "urlEndpoint": "URL do endpoint"
       }
-    },
+    }
+  },
   "header": {
     "nav": {
       "about": "Sobre",
