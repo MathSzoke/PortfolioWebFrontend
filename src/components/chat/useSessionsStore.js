@@ -2,9 +2,26 @@ import { useEffect, useMemo, useReducer, useCallback, useRef, useState } from "r
 import * as signalR from "@microsoft/signalr";
 import getApiClient from "../../services/apiClient";
 
-function normalizeSessions(r) {
+function sessionActivity(session) {
+    const senderSeen = session.lastSenderSeenAt ? new Date(session.lastSenderSeenAt).getTime() : 0;
+    const recipientSeen = session.lastRecipientSeenAt ? new Date(session.lastRecipientSeenAt).getTime() : 0;
+    const createdAt = session.createdAt ? new Date(session.createdAt).getTime() : 0;
+    return Math.max(senderSeen, recipientSeen, createdAt);
+}
+
+function conversationKey(session, userId) {
+    if (userId) {
+        const peerId = session.senderId === userId ? session.recipientId : session.senderId;
+        return peerId || session.id;
+    }
+
+    const ids = [session.senderId, session.recipientId].filter(Boolean).sort();
+    return ids.length ? ids.join(':') : session.id;
+}
+
+function normalizeSessions(r, userId) {
     const arr = Array.isArray(r) ? r : (Array.isArray(r?.items) ? r.items : []);
-    return arr.map(x => ({
+    const normalized = arr.map(x => ({
         id: x.id ?? x.Id,
         senderId: x.senderId ?? x.SenderId ?? null,
         recipientId: x.recipientId ?? x.RecipientId ?? null,
@@ -13,6 +30,18 @@ function normalizeSessions(r) {
         lastSenderSeenAt: x.lastSenderSeenAt ?? x.LastSenderSeenAt ?? null,
         lastRecipientSeenAt: x.lastRecipientSeenAt ?? x.LastRecipientSeenAt ?? null
     }));
+
+    const byConversation = new Map();
+    for (const session of normalized) {
+        const key = conversationKey(session, userId);
+        const current = byConversation.get(key);
+        if (!current || sessionActivity(session) > sessionActivity(current)) {
+            byConversation.set(key, session);
+        }
+    }
+
+    return Array.from(byConversation.values())
+        .sort((a, b) => sessionActivity(b) - sessionActivity(a));
 }
 
 function reducer(state, action) {
@@ -40,9 +69,15 @@ export function useSessionsStore({ open, apiBase, userId }) {
         if (!open || !apiBase || !userId) return;
         try {
             const r = await api.get("/api/v1/chat/sessions");
-            dispatch({ type: "SET", items: normalizeSessions(r) });
+            dispatch({ type: "SET", items: normalizeSessions(r, userId) });
         } catch { dispatch({ type: "SET", items: [] }); }
     }, [open, apiBase, userId, api]);
+
+    const deleteSession = useCallback(async (id) => {
+        if (!id) return;
+        dispatch({ type: "REMOVE", id });
+        await api.delete(`/api/v1/chat/sessions/${id}`);
+    }, [api]);
 
     useEffect(() => {
         if (!open || !apiBase || !userId) return;
@@ -72,6 +107,7 @@ export function useSessionsStore({ open, apiBase, userId }) {
     }, [connection]);
 
     return useMemo(() => ({
-        sessions: state.items
-    }), [state.items]);
+        sessions: state.items,
+        deleteSession
+    }), [state.items, deleteSession]);
 }

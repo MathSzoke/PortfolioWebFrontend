@@ -3,7 +3,7 @@ import {
     Button, Persona, makeStyles, tokens, Toaster, useToastController, useId,
     ToastTitle, ToastTrigger, Toast, Link
 } from '@fluentui/react-components';
-import { Dismiss24Regular } from '@fluentui/react-icons';
+import { Dismiss16Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import { useAuth } from '../../services/auth';
 import { useTranslation } from 'react-i18next';
 import { ChatInput } from './ChatInput.jsx';
@@ -55,6 +55,7 @@ const useStyles = makeStyles({
         padding: 0,
         display: 'flex',
         alignItems: 'center',
+        position: 'relative',
         cursor: 'pointer',
         border: `1px solid ${tokens.colorNeutralStroke2}`,
         overflow: 'hidden',
@@ -63,7 +64,22 @@ const useStyles = makeStyles({
             transform: 'scale(1.02)'
         }
     },
-    listItemBtn: { width: '100%', justifyContent: 'flex-start', padding: '6px 8px', height: 'auto' },
+    listItemBtn: { width: '100%', justifyContent: 'flex-start', padding: '6px 32px 6px 8px', height: 'auto' },
+    deleteSessionButton: {
+        position: 'absolute',
+        top: '4px',
+        right: '4px',
+        minWidth: '24px',
+        width: '24px',
+        height: '24px',
+        color: tokens.colorNeutralForeground3,
+        opacity: 0.65,
+        ':hover': {
+            opacity: 1,
+            color: tokens.colorPaletteRedForeground1,
+            backgroundColor: tokens.colorNeutralBackground1Hover
+        }
+    },
     chatArea: {
         flex: 1,
         display: 'flex',
@@ -123,7 +139,7 @@ export function ChatDialog({ apiBase, open, onClose, onSend, onStart, started, i
     const { dispatchToast, dismissToast, pauseToast } = useToastController(toasterId);
     const stickyRef = useRef(null);
 
-    const { sessions } = useSessionsStore({ open, apiBase, userId: userInfo?.id });
+    const { sessions, deleteSession } = useSessionsStore({ open, apiBase, userId: userInfo?.id });
 
     useEffect(() => {
         if (!open) {
@@ -228,6 +244,17 @@ export function ChatDialog({ apiBase, open, onClose, onSend, onStart, started, i
     const showStart = ((!isOwner && sessions.length === 0) || userInfo === null);
     if (!open) return null;
 
+    const handleDeleteSession = async (sessionToDelete) => {
+        const nextSession = sessions.find(item => item.id !== sessionToDelete.id) ?? null;
+        await deleteSession(sessionToDelete.id);
+
+        if (resolvedSessionId === sessionToDelete.id) {
+            const nextId = nextSession?.id ?? null;
+            setActiveSessionId(nextId);
+            await selectSession(nextId);
+        }
+    };
+
     return (
         <div className={s.container}>
             <div className={s.sidebar}>
@@ -254,6 +281,16 @@ export function ChatDialog({ apiBase, open, onClose, onSend, onStart, started, i
                                         avatar={{ image: { src: peer.picture } }}
                                     />
                                 </Button>
+                                <Button
+                                    appearance="subtle"
+                                    aria-label="Delete conversation"
+                                    className={s.deleteSessionButton}
+                                    icon={<Dismiss16Regular />}
+                                    onClick={async (event) => {
+                                        event.stopPropagation();
+                                        await handleDeleteSession(it);
+                                    }}
+                                />
                             </div>
                         );
                     })}
