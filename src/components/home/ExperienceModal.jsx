@@ -13,14 +13,15 @@ import {
     Input,
     Label,
     Text,
-    Textarea,
     Tooltip
 } from '@fluentui/react-components';
 import { AddRegular, CheckmarkRegular, DismissRegular, InfoRegular } from '@fluentui/react-icons';
 import { useTranslation } from 'react-i18next';
+import MDEditor from '@uiw/react-md-editor';
+import '@uiw/react-md-editor/markdown-editor.css';
+import '@uiw/react-markdown-preview/markdown.css';
 import getApiClient from '../../services/apiClient';
 import { uploadToCloudinary } from '../../services/cloudinaryUpload';
-import MarkdownText from './MarkdownText';
 
 const emptyExperience = {
     company: '',
@@ -96,7 +97,6 @@ export default function ExperienceModal({ open, initialData, onClose, onSave }) 
     const [technologies, setTechnologies] = useState([]);
     const [addingTech, setAddingTech] = useState(false);
     const [newTech, setNewTech] = useState('');
-    const [showPreview, setShowPreview] = useState(false);
     const [datePrecision, setDatePrecision] = useState('month');
     const fileInputRef = useRef(null);
 
@@ -112,7 +112,6 @@ export default function ExperienceModal({ open, initialData, onClose, onSave }) 
             isPresent: Boolean(data.isPresent || String(data.period || '').includes('{{timerWorking}}'))
         });
         setDatePrecision(String(data.startDate || '').length > 7 ? 'day' : 'month');
-        setShowPreview(false);
     }, [initialData, open]);
 
     useEffect(() => {
@@ -160,10 +159,7 @@ export default function ExperienceModal({ open, initialData, onClose, onSave }) 
             await onSave({
                 ...form,
                 period,
-                description: descriptionText
-                    .split(/\r?\n/)
-                    .map(x => x.trim())
-                    .filter(Boolean),
+                description: descriptionText.trim() ? [descriptionText.trim()] : [],
                 startDate: form.startDate || null,
                 endDate: form.isPresent ? null : form.endDate || null,
                 isPresent: form.isPresent
@@ -175,12 +171,12 @@ export default function ExperienceModal({ open, initialData, onClose, onSave }) 
 
     return (
         <Dialog open={open} onOpenChange={(_, data) => !data.open && onClose()}>
-            <DialogSurface style={{ maxWidth: 760 }}>
+            <DialogSurface style={{ maxWidth: 980 }}>
                 <DialogBody>
                     <DialogTitle>
                         {initialData?.company ? t('about.sections.experiences.admin.editTitle') : t('about.sections.experiences.admin.addTitle')}
                     </DialogTitle>
-                    <DialogContent style={{ display: 'grid', gap: 12 }}>
+                    <DialogContent style={{ display: 'grid', gap: 12, maxHeight: '78vh', overflowY: 'auto', paddingRight: 8 }}>
                         <Field label={t('about.sections.experiences.admin.company')}>
                             <Input value={form.company} onChange={event => update('company', event.target.value)} />
                         </Field>
@@ -235,26 +231,16 @@ export default function ExperienceModal({ open, initialData, onClose, onSave }) 
                         </div>
 
                         <Field label={t('about.sections.experiences.admin.description')}>
-                            <div style={{ display: 'grid', gap: 8 }}>
-                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button appearance="subtle" onClick={() => setShowPreview(value => !value)}>
-                                        {showPreview ? t('about.sections.experiences.admin.editMarkdown') : t('about.sections.experiences.admin.previewMarkdown')}
-                                    </Button>
-                                </div>
-                                {showPreview ? (
-                                    <div style={{ minHeight: 120, padding: 12, border: '1px solid #555', borderRadius: 4 }}>
-                                        {descriptionText.split(/\r?\n/).map((line, index) => (
-                                            <div key={index}><MarkdownText>{line}</MarkdownText></div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <Textarea
-                                        resize="vertical"
-                                        value={descriptionText}
-                                        onChange={event => update('descriptionText', event.target.value)}
-                                        style={{ minHeight: 120 }}
-                                    />
-                                )}
+                            <div data-color-mode="dark" style={{ minHeight: 380 }}>
+                                <MDEditor
+                                    value={descriptionText}
+                                    onChange={value => update('descriptionText', value || '')}
+                                    height={380}
+                                    preview="live"
+                                    textareaProps={{
+                                        placeholder: '# Title\n\nWrite markdown here...'
+                                    }}
+                                />
                             </div>
                         </Field>
                         <Field label={t('about.sections.experiences.admin.techs')}>

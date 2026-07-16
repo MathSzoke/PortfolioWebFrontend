@@ -31,6 +31,7 @@ import {
     CarouselCard
 } from '@fluentui/react-components';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import MDEditor from '@uiw/react-md-editor';
 import { TbBrandCSharp } from 'react-icons/tb';
 import {
     SiDotnet,
@@ -53,7 +54,6 @@ import { generateCurriculumPdfBlob } from '../../services/curriculumPdf';
 import { uploadCurriculumPdfToApi } from '../../services/curriculumUpload';
 import { deleteExperience, getExperiences, saveExperience } from '../../services/experiences';
 import ExperienceModal from './ExperienceModal';
-import MarkdownText from './MarkdownText';
 
 const useStyles = makeStyles({
     root: {
@@ -151,7 +151,7 @@ const useStyles = makeStyles({
     },
     descriptionVisible: {
         opacity: 1,
-        maxHeight: '10.5rem',
+        maxHeight: '18rem',
         padding: '12px 0',
         transform: 'translateY(0)'
     },
@@ -590,13 +590,12 @@ export default function AboutSection() {
                                                 <Text weight="semibold" style={{ padding: 8, marginBottom: 8 }}>
                                                     {t('about.sections.experiences.descriptionTitle', 'Main activities')}
                                                 </Text>
-                                                <ul style={{ padding: '0 40px 10px', margin: 0, overflowY: 'auto' }}>
-                                                    {(exp.description || []).map((desc, idx) => (
-                                                        <li key={idx}>
-                                                            <MarkdownText>{desc}</MarkdownText>
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                                <div data-color-mode="dark" style={{ padding: '0 16px 10px', overflowY: 'auto', width: '100%' }}>
+                                                    <MDEditor.Markdown
+                                                        source={(exp.description || []).join('\n')}
+                                                        style={{ background: 'transparent', color: 'inherit' }}
+                                                    />
+                                                </div>
                                             </div>
 
                                             <div className={mergeClasses(s.techs, isHovered && s.techsVisible)}>
