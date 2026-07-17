@@ -18,7 +18,8 @@
   },
   "hero": {
     "title": "HELLO THERE 👋, WELCOME TO MY SITE!",
-    "introducingMe": "<span>I'm <code>Matheus Szoke</code>\nI'm a <code>Fullstack developer</code>\n& <code>Agent AI Developer</code></span>",
+    "introducingMe": "<span>I'm <code>Matheus Szoke</code></span>",
+    "role": "Software Engineer",
     "imageAlt": "Matheus's avatar",
     "buttons": {
       "viewProjects": "See Projects",

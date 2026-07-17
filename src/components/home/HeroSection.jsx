@@ -37,6 +37,28 @@ const useStyles = makeStyles({
         display: 'inline-block',
         fontFamily: 'sans-serif'
     },
+    roleLine: {
+        display: 'block',
+        marginTop: '6px',
+        height: '2.2rem'
+    },
+    typingRole: {
+        color: tokens.colorBrandBackground,
+        display: 'inline-block',
+        width: 0,
+        maxWidth: 'max-content',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        borderRight: `2px solid ${tokens.colorBrandBackground}`,
+        fontSize: '2rem',
+        fontWeight: 700,
+        fontFamily: 'sans-serif',
+        animationName: 'heroTyping, heroCaret',
+        animationDuration: '1.8s, .75s',
+        animationTimingFunction: 'steps(17, end), step-end',
+        animationIterationCount: '1, infinite',
+        animationFillMode: 'forwards, none'
+    },
     helloMessage: {
         fontFamily: 'monospace'
     },
@@ -76,6 +98,9 @@ export default function HeroSection({ onSeeProjects }) {
                             span: <span className={s.highlight} />
                         }}
                     />
+                    <span className={s.roleLine}>
+                        <code className={s.typingRole}>{t('hero.role')}</code>
+                    </span>
                 </Title3>
             </div>
 
