@@ -54,10 +54,9 @@ const useStyles = makeStyles({
         fontWeight: 700,
         fontFamily: 'sans-serif',
         animationName: 'heroTyping, heroCaret',
-        animationDuration: '1.8s, .75s',
+        animationDuration: '5s, .75s',
         animationTimingFunction: 'steps(17, end), step-end',
-        animationIterationCount: '1, infinite',
-        animationFillMode: 'forwards, none'
+        animationIterationCount: 'infinite, infinite'
     },
     helloMessage: {
         fontFamily: 'monospace'

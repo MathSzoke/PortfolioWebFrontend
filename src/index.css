@@ -129,12 +129,16 @@ html {
 }
 
 @keyframes heroTyping {
-    from {
+    0%, 10% {
         width: 0;
     }
 
-    to {
+    45%, 70% {
         width: 17ch;
+    }
+
+    95%, 100% {
+        width: 0;
     }
 }
 

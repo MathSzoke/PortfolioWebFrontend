@@ -57,7 +57,6 @@ import ExperienceModal from './ExperienceModal';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: '1200px',
         display: 'grid',
         gap: '24px'
     },
